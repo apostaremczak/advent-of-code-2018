@@ -3,7 +3,6 @@ package com.postaremczak.advent_of_code.day_01
 import java.io.InputStream
 
 import scala.io.{BufferedSource, Source}
-import scala.collection.mutable
 
 object ChronalCalibration {
   val inputFile: InputStream = getClass.getResourceAsStream("/day_01_input.txt")
@@ -12,13 +11,15 @@ object ChronalCalibration {
     frequencyInput.sum
   }
 
-  def findRepeatedFrequency(frequenciesSeen: mutable.Buffer[Int], frequencyInput: Seq[Int]): Int = {
+  def findRepeatedFrequency(frequenciesSeen: Seq[Int], frequencyInput: Seq[Int]): Int = {
     val nextFrequency = frequenciesSeen.last + frequencyInput.head
     if (frequenciesSeen.contains(nextFrequency)) {
       nextFrequency
     } else {
-      frequenciesSeen.append(nextFrequency)
-      findRepeatedFrequency(frequenciesSeen, frequencyInput.drop(1).union(Seq(frequencyInput.head)))
+      findRepeatedFrequency(
+        frequenciesSeen.union(Seq(nextFrequency)),
+        frequencyInput.drop(1).union(Seq(frequencyInput.head))
+      )
     }
   }
 
@@ -29,7 +30,7 @@ object ChronalCalibration {
     // Part one
     println(s"Last frequency: ${findFinalFrequency(frequencyInput)}")
     // Part two
-    println(s"First repeated frequency: ${findRepeatedFrequency(mutable.Buffer(0), frequencyInput)}")
+    println(s"First repeated frequency: ${findRepeatedFrequency(Seq(0), frequencyInput)}")
 
     bufferedFile.close()
   }
