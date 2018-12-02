@@ -20,7 +20,9 @@ object InventoryManagementSystem {
     val wordScores = boxIds
       .map(countDoublesAndTriples)
 
-    correctOccurrenceCount.map(score => wordScores.count(_.get(score).isDefined)).product
+    correctOccurrenceCount
+      .map(score => wordScores.count(_.get(score).isDefined))
+      .product
   }
 
   def getOverlap(id1: String, id2: String): Option[String] = {
