@@ -15,15 +15,37 @@ object InventoryManagementSystem {
       .toMap
   }
 
-  def calculateChecksum(words: Seq[String]): Int = {
-    val wordScores = words
+  def calculateChecksum: Int = {
+    val wordScores = boxIds
       .map(countDoublesAndTriples)
 
-    wordScores.count(_.get(2).isDefined) * wordScores.count(_.get(3).isDefined)
+    Seq(2, 3).map(score => wordScores.count(_.get(score).isDefined)).product
+  }
+
+  def getSimilar(id1: String, id2: String): Option[String] = {
+    // Two IDs are considered correct, if they differ by only one letter
+    val indexOverlap = id1.indices.filter { i: Int => id1.charAt(i) == id2.charAt(i) }
+    if (indexOverlap.length == id1.length - 1) {
+      Some(indexOverlap.map(id1.charAt).mkString)
+    } else {
+      None
+    }
+  }
+
+  def findCorrectIdOverlap: String = {
+    boxIds
+      .map(id => boxIds.flatMap(getSimilar(id, _)))
+      .filter(_.nonEmpty)
+      .distinct
+      .head
+      .mkString
   }
 
   def main(args: Array[String]): Unit = {
-    println(s"Checksum: ${calculateChecksum(boxIds)}")
+    // Part one
+    println(s"Checksum: $calculateChecksum")
+    // Part two
+    println(s"Correct ID overlap: $findCorrectIdOverlap")
 
     puzzleInput.stream.close()
   }
