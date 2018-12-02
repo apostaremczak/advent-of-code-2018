@@ -4,7 +4,8 @@ import com.postaremczak.advent_of_code.PuzzleInput
 
 
 object ChronalCalibration {
-  val frequencyInput: Seq[Int] = PuzzleInput.read(1).map(_.toInt)
+  val puzzleInput: PuzzleInput = PuzzleInput(1)
+  val frequencyInput: Seq[Int] = puzzleInput.read.map(_.toInt)
 
   def findFinalFrequency(frequencyInput: Seq[Int]): Int = {
     frequencyInput.sum
@@ -28,5 +29,7 @@ object ChronalCalibration {
     println(s"Last frequency: ${findFinalFrequency(frequencyInput)}")
     // Part two
     println(s"First repeated frequency: ${findRepeatedFrequency(frequencyInput)}")
+
+    puzzleInput.stream.close()
   }
 }
