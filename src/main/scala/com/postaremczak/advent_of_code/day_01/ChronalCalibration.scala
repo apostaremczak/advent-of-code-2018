@@ -1,11 +1,10 @@
 package com.postaremczak.advent_of_code.day_01
 
-import java.io.InputStream
+import com.postaremczak.advent_of_code.PuzzleInput
 
-import scala.io.{BufferedSource, Source}
 
 object ChronalCalibration {
-  val inputFile: InputStream = getClass.getResourceAsStream("/day_01_input.txt")
+  val frequencyInput: Seq[Int] = PuzzleInput.read(1).map(_.toInt)
 
   def findFinalFrequency(frequencyInput: Seq[Int]): Int = {
     frequencyInput.sum
@@ -25,14 +24,9 @@ object ChronalCalibration {
   }
 
   def main(args: Array[String]): Unit = {
-    val bufferedFile: BufferedSource = Source.fromInputStream(inputFile)
-    val frequencyInput: Seq[Int] = bufferedFile.getLines().toSeq.map(_.toInt)
-
     // Part one
     println(s"Last frequency: ${findFinalFrequency(frequencyInput)}")
     // Part two
     println(s"First repeated frequency: ${findRepeatedFrequency(frequencyInput)}")
-
-    bufferedFile.close()
   }
 }
