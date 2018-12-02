@@ -5,13 +5,14 @@ import com.postaremczak.advent_of_code.PuzzleInput
 object InventoryManagementSystem {
   val puzzleInput: PuzzleInput = PuzzleInput(2)
   val boxIds: Seq[String] = puzzleInput.read
+  val correctOccurrenceCount: Seq[Int] = Seq(2, 3)
 
   def countDoublesAndTriples(word: String): Map[Int, Char] = {
     // Drops duplicates - if more than one letter occurred 2 or 3 times,
     // only one of them will be saved
     word.toSet.toSeq
       .map { letter: Char => (word.count(_ == letter), letter) }
-      .filter { letterCount => Seq(2, 3).contains(letterCount._1) }
+      .filter { letterCount => correctOccurrenceCount.contains(letterCount._1) }
       .toMap
   }
 
@@ -19,10 +20,10 @@ object InventoryManagementSystem {
     val wordScores = boxIds
       .map(countDoublesAndTriples)
 
-    Seq(2, 3).map(score => wordScores.count(_.get(score).isDefined)).product
+    correctOccurrenceCount.map(score => wordScores.count(_.get(score).isDefined)).product
   }
 
-  def getSimilar(id1: String, id2: String): Option[String] = {
+  def getOverlap(id1: String, id2: String): Option[String] = {
     // Two IDs are considered correct, if they differ by only one letter
     val indexOverlap = id1.indices.filter { i: Int => id1.charAt(i) == id2.charAt(i) }
     if (indexOverlap.length == id1.length - 1) {
@@ -34,7 +35,7 @@ object InventoryManagementSystem {
 
   def findCorrectIdOverlap: String = {
     boxIds
-      .map(id => boxIds.flatMap(getSimilar(id, _)))
+      .map(id => boxIds.flatMap(getOverlap(id, _)))
       .filter(_.nonEmpty)
       .distinct
       .head
