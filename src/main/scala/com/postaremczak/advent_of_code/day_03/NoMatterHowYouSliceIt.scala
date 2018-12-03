@@ -1,14 +1,20 @@
 package com.postaremczak.advent_of_code.day_03
 
 import com.postaremczak.advent_of_code.PuzzleInput
-import FabricClaim._
 
 
 object NoMatterHowYouSliceIt {
   val puzzleInput: PuzzleInput = PuzzleInput(3)
-  val fabricClaims: Seq[Either[TransformError, FabricClaim]] = puzzleInput.read.map(FabricClaim(_))
+  val fabricClaims: Seq[Option[FabricClaim]] = puzzleInput.read.map(FabricClaim(_))
 
-  def countOverlappingSquares: Int = ???
+  def countOverlappingSquares: Int = {
+    fabricClaims
+      .flatten
+      .flatMap(_.getSquares)
+      .groupBy(identity)
+      .mapValues(_.size)
+      .count(_._2 > 1)
+  }
 
   def main(args: Array[String]): Unit = {
     // Part one
