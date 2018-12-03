@@ -17,25 +17,24 @@ object NoMatterHowYouSliceIt {
       .toSeq
   }
 
-  def countOverlappingSquares(implicit overlappingSquares: Seq[(Int, Int)]): Int = {
+  def countOverlappingSquares(overlappingSquares: Seq[(Int, Int)]): Int = {
     overlappingSquares.size
   }
 
-  def findNotOverlappingClaimId(implicit overlappingSquares: Seq[(Int, Int)]): Int = {
-    val overlapping = overlappingSquares.toSet
+  def findNotOverlappingClaimId(overlappingSquares: Set[(Int, Int)]): Int = {
     fabricClaims
       .map { fabricClaim => (fabricClaim.id, fabricClaim.squares) }
-      .filter(_._2.toSet.intersect(overlapping).isEmpty)
+      .filter(_._2.toSet.intersect(overlappingSquares).isEmpty)
       .head
       ._1
   }
 
   def main(args: Array[String]): Unit = {
-    implicit val overlappingSquares: Seq[(Int, Int)] = getOverlappingSquares
+    val overlappingSquares: Seq[(Int, Int)] = getOverlappingSquares
     // Part one
-    println(s"Number of overlapping squares: $countOverlappingSquares")
+    println(s"Number of overlapping squares: ${countOverlappingSquares(overlappingSquares)}")
 
     // Part two
-    println(s"ID of the only not overlapping claim: $findNotOverlappingClaimId")
+    println(s"ID of the only not overlapping claim: ${findNotOverlappingClaimId(overlappingSquares.toSet)}")
   }
 }
