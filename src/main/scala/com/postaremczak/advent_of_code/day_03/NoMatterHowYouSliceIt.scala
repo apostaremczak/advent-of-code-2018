@@ -9,7 +9,7 @@ object NoMatterHowYouSliceIt {
 
   def getOverlappingSquares: Seq[(Int, Int)] = {
     fabricClaims
-      .flatMap(_.getSquares)
+      .flatMap(_.squares)
       .groupBy(identity)
       .mapValues(_.size)
       .filter(_._2 > 1)
@@ -24,7 +24,7 @@ object NoMatterHowYouSliceIt {
   def findNotOverlappingClaimId(implicit overlappingSquares: Seq[(Int, Int)]): Int = {
     val overlapping = overlappingSquares.toSet
     fabricClaims
-      .map { fabricClaim => (fabricClaim.id, fabricClaim.getSquares) }
+      .map { fabricClaim => (fabricClaim.id, fabricClaim.squares) }
       .filter(_._2.toSet.intersect(overlapping).isEmpty)
       .head
       ._1
