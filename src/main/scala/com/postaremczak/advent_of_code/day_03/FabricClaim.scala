@@ -2,7 +2,6 @@ package com.postaremczak.advent_of_code.day_03
 
 import scala.util.matching.Regex
 
-
 case class FabricClaim(
                         id: Int,
                         fromLeft: Int,
@@ -25,17 +24,14 @@ case class FabricClaim(
 }
 
 object FabricClaim {
-
-  case class TransformError(e: String)
-
   private val pattern: Regex = """#(\d{1,4}) @ (\d{1,3}),(\d{1,3}): (\d{1,3})x(\d{1,3})""".r
 
-  def apply(claim: String): Either[TransformError, FabricClaim] = {
+  def apply(claim: String): Option[FabricClaim] = {
     // Exemplary claim: #123 @ 3,2: 5x4
     claim match {
       case pattern(id, fromLeft, fromTop, width, height) =>
-        Right(FabricClaim(id.toInt, fromLeft.toInt, fromTop.toInt, width.toInt, height.toInt))
-      case _ => Left(TransformError("Couldn't parse fabric claim"))
+        Some(FabricClaim(id.toInt, fromLeft.toInt, fromTop.toInt, width.toInt, height.toInt))
+      case _ => None
     }
   }
 }
