@@ -5,17 +5,14 @@ import com.postaremczak.advent_of_code.Solution
 
 object NoMatterHowYouSliceIt extends Solution(adventDay = 3) {
   val fabricClaims: Seq[FabricClaim] = puzzleInput.read.flatMap(FabricClaim(_))
-  lazy val overlappingSquares: Seq[(Int, Int)] = getOverlappingSquares
 
-  def getOverlappingSquares: Seq[(Int, Int)] = {
-    fabricClaims
-      .flatMap(_.squares)
-      .groupBy(identity)
-      .mapValues(_.size)
-      .filter(_._2 > 1)
-      .keys
-      .toSeq
-  }
+  lazy val overlappingSquares: Seq[(Int, Int)] = fabricClaims
+    .flatMap(_.squares)
+    .groupBy(identity)
+    .mapValues(_.size)
+    .filter(_._2 > 1)
+    .keys
+    .toSeq
 
   def countOverlappingSquares: Int = {
     overlappingSquares.size

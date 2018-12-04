@@ -10,16 +10,10 @@ case class FabricClaim(
                         height: Int
                       ) {
 
-  lazy val squares: Seq[(Int, Int)] = getSquares
-
-  def getSquares: Seq[(Int, Int)] = {
-    def generateSquare(x: Int)(y: Int): (Int, Int) = {
-      (x, y)
-    }
-
+  lazy val squares: Seq[(Int, Int)] = {
     Range(fromTop, fromTop + height).flatMap {
       x: Int =>
-        Range(fromLeft, fromLeft + width).map(generateSquare(x))
+        Range(fromLeft, fromLeft + width).map((x, _))
     }
   }
 }
