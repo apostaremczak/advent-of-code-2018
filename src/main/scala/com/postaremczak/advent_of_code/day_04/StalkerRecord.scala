@@ -3,11 +3,15 @@ package com.postaremczak.advent_of_code.day_04
 import org.joda.time.DateTime
 import org.joda.time.format.DateTimeFormat
 
-case class StalkerRecord(
-                          time: DateTime,
-                          message: String,
-                          guardOnDutyId: Option[Int]
-                        )
+class StalkerRecord(recordTime: DateTime) {
+  val time: DateTime = recordTime
+}
+
+case class NapStart(override val time: DateTime) extends StalkerRecord(time)
+
+case class NapEnd(override val time: DateTime) extends StalkerRecord(time)
+
+case class GuardId(override val time: DateTime, id: Int) extends StalkerRecord(time)
 
 object StalkerRecord {
   private val recordPattern = """\[(\d{4}-\d{2}-\d{2} \d{2}:\d{2})\] (.*)""".r
@@ -20,13 +24,15 @@ object StalkerRecord {
   def parse(rawMessage: String): Option[StalkerRecord] = {
     rawMessage match {
       case recordPattern(timeString, message) =>
-        // Check if there's a guard information
-        val guard: Option[Int] = message match {
-          case guardPattern(_, guardId, _) => Some(guardId.toInt)
-          case _ => None
+        val time = DateTime.parse(timeString, dateTimeFormat)
+
+        val messageType = message match {
+          case "falls asleep" => NapStart(time)
+          case "wakes up" => NapEnd(time)
+          case guardPattern(_, guardId, _) => GuardId(time, guardId.toInt)
         }
 
-        Some(StalkerRecord(DateTime.parse(timeString, dateTimeFormat), message, guard))
+        Some(messageType)
 
       case _ => None
     }
