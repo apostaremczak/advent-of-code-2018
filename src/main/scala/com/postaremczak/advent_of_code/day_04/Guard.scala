@@ -4,5 +4,5 @@ case class Guard(
                   id: Int,
                   totalNapTime: Int,
                   favouriteNappingMinute: Int,
-                  favouriteNappingCount: Int
+                  favouriteMinuteCount: Int
                 )

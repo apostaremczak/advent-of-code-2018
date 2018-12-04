@@ -7,11 +7,14 @@ class StalkerRecord(recordTime: DateTime) {
   val time: DateTime = recordTime
 }
 
-case class NapStart(override val time: DateTime) extends StalkerRecord(time)
+case class NapStart(override val time: DateTime)
+  extends StalkerRecord(time)
 
-case class NapEnd(override val time: DateTime) extends StalkerRecord(time)
+case class NapEnd(override val time: DateTime)
+  extends StalkerRecord(time)
 
-case class GuardId(override val time: DateTime, id: Int) extends StalkerRecord(time)
+case class GuardId(override val time: DateTime, id: Int)
+  extends StalkerRecord(time)
 
 object StalkerRecord {
   private val recordPattern = """\[(\d{4}-\d{2}-\d{2} \d{2}:\d{2})\] (.*)""".r
