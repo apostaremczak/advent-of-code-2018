@@ -36,5 +36,7 @@ object NoMatterHowYouSliceIt {
 
     // Part two
     println(s"ID of the only not overlapping claim: ${findNotOverlappingClaimId(overlappingSquares.toSet)}")
+
+    puzzleInput.stream.close()
   }
 }
