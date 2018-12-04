@@ -1,11 +1,11 @@
 package com.postaremczak.advent_of_code.day_03
 
-import com.postaremczak.advent_of_code.PuzzleInput
+import com.postaremczak.advent_of_code.Solution
 
 
-object NoMatterHowYouSliceIt {
-  val puzzleInput: PuzzleInput = PuzzleInput(3)
+object NoMatterHowYouSliceIt extends Solution(adventDay = 3) {
   val fabricClaims: Seq[FabricClaim] = puzzleInput.read.flatMap(FabricClaim(_))
+  lazy val overlappingSquares: Seq[(Int, Int)] = getOverlappingSquares
 
   def getOverlappingSquares: Seq[(Int, Int)] = {
     fabricClaims
@@ -17,25 +17,26 @@ object NoMatterHowYouSliceIt {
       .toSeq
   }
 
-  def countOverlappingSquares(overlappingSquares: Seq[(Int, Int)]): Int = {
+  def countOverlappingSquares: Int = {
     overlappingSquares.size
   }
 
-  def findNotOverlappingClaimId(overlappingSquares: Set[(Int, Int)]): Int = {
+  def findNotOverlappingClaimId: Int = {
+    val overlappingSet = overlappingSquares.toSet
+
     fabricClaims
       .map { fabricClaim => (fabricClaim.id, fabricClaim.squares) }
-      .filter(_._2.toSet.intersect(overlappingSquares).isEmpty)
+      .filter(_._2.toSet.intersect(overlappingSet).isEmpty)
       .head
       ._1
   }
 
   def main(args: Array[String]): Unit = {
-    val overlappingSquares: Seq[(Int, Int)] = getOverlappingSquares
     // Part one
-    println(s"Number of overlapping squares: ${countOverlappingSquares(overlappingSquares)}")
+    println(s"Number of overlapping squares: $countOverlappingSquares")
 
     // Part two
-    println(s"ID of the only not overlapping claim: ${findNotOverlappingClaimId(overlappingSquares.toSet)}")
+    println(s"ID of the only not overlapping claim: $findNotOverlappingClaimId")
 
     puzzleInput.stream.close()
   }

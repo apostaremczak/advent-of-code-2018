@@ -1,11 +1,9 @@
 package com.postaremczak.advent_of_code.day_01
 
-import com.postaremczak.advent_of_code.PuzzleInput
+import com.postaremczak.advent_of_code.Solution
 
 
-object ChronalCalibration {
-  val puzzleInput: PuzzleInput = PuzzleInput(1)
-  val frequencyInput: Seq[Int] = puzzleInput.read.map(_.toInt)
+object ChronalCalibration extends Solution(adventDay = 1) {
 
   def findFinalFrequency(frequencyInput: Seq[Int]): Int = {
     frequencyInput.sum
@@ -25,6 +23,8 @@ object ChronalCalibration {
   }
 
   def main(args: Array[String]): Unit = {
+    val frequencyInput: Seq[Int] = puzzleInput.read.map(_.toInt)
+
     // Part one
     println(s"Last frequency: ${findFinalFrequency(frequencyInput)}")
     // Part two

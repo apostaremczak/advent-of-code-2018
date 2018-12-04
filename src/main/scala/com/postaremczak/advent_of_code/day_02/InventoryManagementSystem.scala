@@ -1,10 +1,10 @@
 package com.postaremczak.advent_of_code.day_02
 
-import com.postaremczak.advent_of_code.PuzzleInput
+import com.postaremczak.advent_of_code.Solution
 
-object InventoryManagementSystem {
-  val puzzleInput: PuzzleInput = PuzzleInput(2)
-  val boxIds: Seq[String] = puzzleInput.read
+
+object InventoryManagementSystem extends Solution(adventDay = 2) {
+
   val correctOccurrenceCount: Seq[Int] = Seq(2, 3)
 
   def countDoublesAndTriples(word: String): Map[Int, Char] = {
@@ -16,7 +16,7 @@ object InventoryManagementSystem {
       .toMap
   }
 
-  def calculateChecksum: Int = {
+  def calculateChecksum(boxIds: Seq[String]): Int = {
     val wordScores = boxIds
       .map(countDoublesAndTriples)
 
@@ -35,7 +35,7 @@ object InventoryManagementSystem {
     }
   }
 
-  def findCorrectIdOverlap: String = {
+  def findCorrectIdOverlap(boxIds: Seq[String]): String = {
     boxIds
       .map(id => boxIds.flatMap(getOverlap(id, _)))
       .filter(_.nonEmpty)
@@ -45,10 +45,12 @@ object InventoryManagementSystem {
   }
 
   def main(args: Array[String]): Unit = {
+    val boxIds: Seq[String] = puzzleInput.read
+
     // Part one
-    println(s"Checksum: $calculateChecksum")
+    println(s"Checksum: ${calculateChecksum(boxIds)}")
     // Part two
-    println(s"Correct ID overlap: $findCorrectIdOverlap")
+    println(s"Correct ID overlap: ${findCorrectIdOverlap(boxIds)}")
 
     puzzleInput.stream.close()
   }
