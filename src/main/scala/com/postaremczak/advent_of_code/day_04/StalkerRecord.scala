@@ -6,7 +6,7 @@ import org.joda.time.format.DateTimeFormat
 case class StalkerRecord(
                           time: DateTime,
                           message: String,
-                          guardOnDutyId: Option[String]
+                          guardOnDutyId: Option[Int]
                         )
 
 object StalkerRecord {
@@ -21,8 +21,8 @@ object StalkerRecord {
     rawMessage match {
       case recordPattern(timeString, message) =>
         // Check if there's a guard information
-        val guard: Option[String] = message match {
-          case guardPattern(_, guardId, _) => Some(guardId)
+        val guard: Option[Int] = message match {
+          case guardPattern(_, guardId, _) => Some(guardId.toInt)
           case _ => None
         }
 
