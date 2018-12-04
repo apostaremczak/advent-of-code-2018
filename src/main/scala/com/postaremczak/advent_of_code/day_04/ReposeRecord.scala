@@ -10,7 +10,7 @@ object ReposeRecord {
   val guardShifts: Seq[Shift] = Shift.extract(records)
 
 
-  def findLaziestGuard(): Int = {
+  def findLaziestGuard: Int = {
     val winner = guardShifts
       .groupBy(_.guardId)
       .mapValues {
