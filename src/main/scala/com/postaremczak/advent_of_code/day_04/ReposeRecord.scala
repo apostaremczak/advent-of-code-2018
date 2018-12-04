@@ -7,11 +7,10 @@ object ReposeRecord {
   val records: Seq[StalkerRecord] = puzzleInput.read
     .flatMap(StalkerRecord.parse)
     .sortWith((r1, r2) => r1.time.isBefore(r2.time))
-  val guardShifts: Seq[Shift] = Shift.extract(records)
 
-
-  def findLaziestGuard: Int = {
-    val winner = guardShifts
+  def getGuards: Seq[Guard] = {
+    Shift
+      .extract(records)
       .groupBy(_.guardId)
       .mapValues {
         shifts: Seq[Shift] =>
@@ -28,23 +27,42 @@ object ReposeRecord {
 
             Some(Guard(
               id = guardId,
+              totalNapTime = napTime,
               favouriteNappingMinute = favouriteMinute._2,
-              totalNapTime = napTime
+              favouriteNappingCount = favouriteMinute._1
             ))
           } else {
             None
           }
       }
       .toSeq
+  }
+
+  def findLaziestGuard(guards: Seq[Guard]): Int = {
+    val winner = guards
       .sortWith((g1, g2) => g1.totalNapTime < g2.totalNapTime)
       .last
 
     winner.id * winner.favouriteNappingMinute
   }
 
+  def findFavMinuteGuard(guards: Seq[Guard]): Int = {
+    val winner = guards
+      .sortWith((g1, g2) => g1.favouriteNappingCount < g2.favouriteNappingCount)
+      .last
+
+    winner.id * winner.favouriteNappingMinute
+  }
+
+
   def main(args: Array[String]): Unit = {
+    val guards = getGuards
+
     // Part one
-    println(s"ID of the laziest guard multiplied by the most popular sleeping minute: $findLaziestGuard")
+    println(s"ID of the laziest guard multiplied by the most popular sleeping minute: ${findLaziestGuard(guards)}")
+
+    // Part two
+    println(s"ID of the guard which is most frequently asleep on the same minute multiplied by that minute: ${findFavMinuteGuard(guards)}")
 
     puzzleInput.stream.close()
   }
