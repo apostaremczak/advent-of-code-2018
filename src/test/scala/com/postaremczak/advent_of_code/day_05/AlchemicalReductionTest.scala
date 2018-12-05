@@ -13,4 +13,8 @@ class AlchemicalReductionTest extends FunSuite {
   test("AlchemicalReduction.scanPolymer") {
     assert(AlchemicalReduction.scanPolymer(toBeScanned = "dabAcCaCBAcCcaDA") == "dabCBAcaDA")
   }
+
+  test("AlchemicalReduction.findShortestPolymer") {
+    assert(AlchemicalReduction.findShortestPolymer("dabAcCaCBAcCcaDA") == 4)
+  }
 }

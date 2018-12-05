@@ -61,11 +61,27 @@ object AlchemicalReduction extends Solution(adventDay = 5) {
     }
   }
 
-  def countUnitsRemained(polymer: String): Int = {
-    polymer.length
+  def findReducedPolymerLength(polymer: String): Int = {
+    scanPolymer(toBeScanned = polymer).length
+  }
+
+  def findShortestPolymer(polymer: String): Int = {
+    val availableUnits = polymer.toLowerCase.toSet
+
+    availableUnits
+      .map {
+        unit: Char =>
+          val polymerWithRemovedUnit = polymer.filter(_.toLower != unit)
+          findReducedPolymerLength(polymerWithRemovedUnit)
+      }
+      .min
   }
 
   def main(args: Array[String]): Unit = {
-    println(s"Boom! The whole polymer has reacted and is now reduced to ${scanPolymer(toBeScanned = polymer).length} units")
+    // Part one
+    println(s"Boom! The whole polymer has reacted and is now reduced to ${findReducedPolymerLength(polymer)} units")
+
+    // Part two
+    println(s"The shortest possible polymer has ${findShortestPolymer(polymer)} units")
   }
 }
