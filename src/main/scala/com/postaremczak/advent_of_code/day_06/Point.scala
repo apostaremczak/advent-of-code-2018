@@ -11,27 +11,29 @@ case class Point(
     (x - another.x).abs + (y - another.y).abs
   }
 
-  def findClosest(points: Seq[Point]): Option[Point] = {
-    if (points.nonEmpty) {
-      val distances = points
-        .map {
-          point => (point, distance(point))
-        }
-        .sortWith((p1: (Point, Int), p2: (Point, Int)) => p1._2 < p2._2)
+  def getDistances(points: Seq[Point]): Map[Point, Int] = {
+    points
+      .map {
+        point => (point, distance(point))
+      }
+      .toMap
+  }
 
-      val closest = Some(distances.head._1)
-      if (distances.length >= 2) {
-        // Ensure that the minimum distances are not the same
-        if (distances.head._2 == distances(1)._2) {
-          None
-        } else {
-          closest
-        }
+  def findClosest(distances: Map[Point, Int]): Option[Point] = {
+    val orderedDistances = distances
+      .toSeq
+      .sortWith((p1: (Point, Int), p2: (Point, Int)) => p1._2 < p2._2)
+
+    val closest = Some(orderedDistances.head._1)
+    if (orderedDistances.length >= 2) {
+      // Ensure that the minimum distances are not the same
+      if (orderedDistances.head._2 == orderedDistances(1)._2) {
+        None
       } else {
         closest
       }
     } else {
-      None
+      closest
     }
   }
 

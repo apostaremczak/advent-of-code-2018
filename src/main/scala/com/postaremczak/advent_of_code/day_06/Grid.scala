@@ -9,7 +9,7 @@ class Grid(pointsInside: Seq[Point]) {
   val minY: Int = ys.min
   val maxY: Int = ys.max
 
-  def generateEnclosure: Seq[Point] = {
+  lazy val points: Seq[Point] = {
     Range(minX, maxX + 1)
       .flatMap(
         x => Range(minY, maxY + 1)
