@@ -3,29 +3,38 @@ package com.postaremczak.advent_of_code.day_06
 import com.postaremczak.advent_of_code.Solution
 
 object ChronalCoordinates extends Solution(adventDay = 6) {
+
+  case class GridPoint(
+                        self: Point,
+                        closest: Point
+                      )
+
   val pointsOfInterest: Seq[Point] = puzzleInput.read.map(Point(_))
+  // Find the smallest rectangle enclosing the points
+  val grid = new Grid(pointsOfInterest)
 
   def findLargestArea: Int = {
-    // Find the smallest rectangle enclosing the points
-    val grid = new Grid(pointsOfInterest)
+    // Map the closest point of interest to each point on the grid
     val closestPoints = grid
       .generateEnclosure
       .flatMap {
-        gridPoint: Point => gridPoint.findClosest(pointsOfInterest)
+        gridPoint: Point =>
+          for {
+            closest <- gridPoint.findClosest(pointsOfInterest)
+          } yield GridPoint(gridPoint, closest)
       }
 
-
-    val filtered = closestPoints
-      .toSet
+    // Drop the points which areas touch the grid edge - they lead to infinite results
+    val onEdges = closestPoints
       .filter {
-        // Drop the points that touch the grid edge - they lead to infinite areas
-        point: Point => !(point.x == grid.minX || point.x == grid.maxX || point.y == grid.minY || point.y == grid.maxY)
+        gridPoint: GridPoint => gridPoint.self.isOnGridEdge(grid)
       }
+      .map(_.closest)
+      .toSet
 
-    println(filtered)
-
-    filtered
-      .map { p: Point => closestPoints.count(_ == p) }
+    pointsOfInterest
+      .filter(!onEdges.contains(_))
+      .map { p: Point => closestPoints.count(_.closest == p) }
       .max
   }
 
