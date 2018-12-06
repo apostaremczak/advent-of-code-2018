@@ -34,6 +34,10 @@ case class Point(
       None
     }
   }
+
+  def isOnGridEdge(grid: Grid): Boolean = {
+    x == grid.minX || x == grid.maxX || y == grid.minY || y == grid.maxY
+  }
 }
 
 
