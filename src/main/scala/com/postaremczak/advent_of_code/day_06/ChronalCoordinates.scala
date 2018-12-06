@@ -15,7 +15,6 @@ object ChronalCoordinates extends Solution(adventDay = 6) {
   val locations: Grid = new Grid(pointsOfInterest)
 
   // Calculate distances from the location to all the points
-  val maxTotalDistance: Int = 10000
   val distances: Map[Point, Map[Point, Int]] = locations
     .points
     .map { p: Point => (p, p.getDistances(pointsOfInterest)) }
@@ -46,7 +45,7 @@ object ChronalCoordinates extends Solution(adventDay = 6) {
       .max
   }
 
-  def findSafeAreaSize: Int = {
+  def findSafeAreaSize(maxTotalDistance: Int): Int = {
     distances
       .map {
         case (_, distances: Map[Point, Int]) =>
@@ -62,6 +61,6 @@ object ChronalCoordinates extends Solution(adventDay = 6) {
     println(s"The largest finite area: $findLargestArea")
 
     // Part two
-    println(s"The size of the safe region: $findSafeAreaSize")
+    println(s"The size of the safe region: ${findSafeAreaSize(maxTotalDistance = 10000)}")
   }
 }

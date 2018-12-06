@@ -8,6 +8,6 @@ class ChronalCoordinatesTest extends FunSuite {
   }
 
   test("ChronalCoordinates.findSafeAreaSize") {
-    assert(ChronalCoordinates.findSafeAreaSize == 16)
+    assert(ChronalCoordinates.findSafeAreaSize(maxTotalDistance = 32) == 16)
   }
 }
