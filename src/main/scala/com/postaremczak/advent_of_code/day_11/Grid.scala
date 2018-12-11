@@ -7,18 +7,9 @@ case class Grid(serialNumber: Int) {
       .flatMap(
         x => Range(1, 301)
           .map(
-            y => Cell(x, y)
+            y => Cell(x, y)(serialNumber)
           )
       )
-  }
-
-  def calculatePower(fuelCell: Cell): Int = {
-    def getHundreds(n: Int): Int = {
-      (n / 100) % 10
-    }
-
-    val rackId = fuelCell.x + 10
-    getHundreds((rackId * fuelCell.y + serialNumber) * rackId) - 5
   }
 
 }
