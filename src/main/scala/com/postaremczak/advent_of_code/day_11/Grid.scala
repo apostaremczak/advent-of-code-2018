@@ -15,14 +15,14 @@ case class Grid(serialNumber: Int) {
       .toMap
   }
 
-  def calculateRegionalPower(topLeftCoords: (Int, Int)): Int = {
-    // Region size: 3x3
+  def calculateRegionalPower(topLeftCoords: (Int, Int), regionSize: Int = 3): Int = {
+    // Region regionSize: 3x3
     val (minX, minY) = topLeftCoords
 
-    Range(minX, minX + 3)
+    Range(minX, minX + regionSize)
       .flatMap(
         x =>
-          Range(minY, minY + 3)
+          Range(minY, minY + regionSize)
             .map(
               y =>
                 cells.get((x, y)) match {

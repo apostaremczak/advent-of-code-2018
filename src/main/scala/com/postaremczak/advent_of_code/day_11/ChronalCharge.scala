@@ -5,7 +5,7 @@ import com.postaremczak.advent_of_code.Solution
 object ChronalCharge extends Solution(adventDay = 11) {
   val serialNumber: Int = puzzleInput.read.head.toInt
 
-  def findMostPowerfulRegionTopCell(grid: Grid): (Int, Int) = {
+  def findMostPowerful3x3RegionTopCell(grid: Grid): (Int, Int) = {
     grid
       .cells
       .keys
@@ -22,6 +22,6 @@ object ChronalCharge extends Solution(adventDay = 11) {
     val grid = Grid(serialNumber)
 
     // Part one
-    println(s"The most powerful region's top left cell: ${findMostPowerfulRegionTopCell(grid)}")
+    println(s"The most powerful 3x3 region's top left cell: ${findMostPowerful3x3RegionTopCell(grid)}")
   }
 }
