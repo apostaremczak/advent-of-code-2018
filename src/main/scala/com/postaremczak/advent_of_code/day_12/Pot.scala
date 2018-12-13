@@ -13,4 +13,6 @@ object Pot {
       case _ => throw new RuntimeException(s"Invalid character found in plant surviving rules: $potSign")
     }
   }
+
+  def empty: Pot = Pot(false)
 }
