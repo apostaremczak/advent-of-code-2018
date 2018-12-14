@@ -21,8 +21,8 @@ object SurvivalRule {
 
   def decide(fivePots: Seq[Pot])(implicit rules: Seq[SurvivalRule]): Pot = {
     rules
-      .find(_ == fivePots)
-      .getOrElse(throw new RuntimeException(s"No valid survival rule was found for $fivePots!"))
+      .find(_.surroundings.equals(fivePots))
+      .getOrElse(SurvivalRule(fivePots, Pot.empty))
       .effect
   }
 }
